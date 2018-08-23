@@ -1,22 +1,27 @@
 package com.example.nickyhe.weatherpocket;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -102,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
+
+                Toast.makeText(getApplicationContext(), "Invalid input!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -111,8 +118,23 @@ public class MainActivity extends AppCompatActivity {
 
         String city = cityEditText.getText().toString();
 
-        weatherDownloader downloader = new weatherDownloader();
-        downloader.execute("http://api.openweathermap.org/data/2.5/weather?q="
-                +city+"&appid=cdc325a1121a5e7e1445559f03712d5e");
+        //Hiding the Input keyboard
+        InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(cityEditText.getWindowToken(), 0);
+
+        try {
+
+            //Format the city name
+            String encodedCityName = URLEncoder.encode(city, "UTF-8");
+
+            weatherDownloader downloader = new weatherDownloader();
+            downloader.execute("http://api.openweathermap.org/data/2.5/weather?q="
+                    +city+"&appid=cdc325a1121a5e7e1445559f03712d5e");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 }

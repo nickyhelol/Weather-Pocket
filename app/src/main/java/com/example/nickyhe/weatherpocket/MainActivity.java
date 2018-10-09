@@ -1,6 +1,7 @@
 package com.example.nickyhe.weatherpocket;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText cityEditText;
     private TextView weatherTextView;
+    String weatherMsg;
+    String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
                         "Pressure: "+pressure+"\n"+
                         "Humidity: "+humidity;
 
+                weatherMsg = city+" weather:\n"+message;
+
                 weatherTextView.setText(message);
 
             } catch (Exception e) {
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     public void findWeather(View view)
     {
 
-        String city = cityEditText.getText().toString();
+        city = cityEditText.getText().toString();
 
         //Hiding the Input keyboard
         InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -133,8 +138,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
 
-
-
+    public void sendMessage(View view)
+    {
+        Intent intent = new Intent(getApplicationContext(), SendMessageActivity.class);
+        intent.putExtra("weather", weatherMsg);
+        startActivity(intent);
     }
 }

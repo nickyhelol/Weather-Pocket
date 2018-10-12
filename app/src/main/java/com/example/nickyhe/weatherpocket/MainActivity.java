@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText cityEditText;
     private TextView weatherTextView;
-    String weatherMsg;
+    String weatherInfo;
+    String weatherText;
     String city;
 
     @Override
@@ -106,9 +107,11 @@ public class MainActivity extends AppCompatActivity {
                         "Pressure: "+pressure+"\n"+
                         "Humidity: "+humidity;
 
-                weatherMsg = city+" weather:\n"+message;
+                weatherInfo = city+" weather:\n"+message;
+                weatherText = city+": "+temp+", "+pressure+", "+humidity+".";
 
                 weatherTextView.setText(message);
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view)
     {
         Intent intent = new Intent(getApplicationContext(), SendMessageActivity.class);
-        intent.putExtra("weather", weatherMsg);
+        intent.putExtra("weatherInfo", weatherInfo);
+        intent.putExtra("weatherText", weatherText);
         startActivity(intent);
     }
 }

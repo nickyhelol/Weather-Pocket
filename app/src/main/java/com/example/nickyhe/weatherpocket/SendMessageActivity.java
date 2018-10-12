@@ -37,23 +37,25 @@ public class SendMessageActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
 
         Intent intent = getIntent();
-        final String msg = intent.getStringExtra("weather");
+        String weatherInfo = intent.getStringExtra("weatherInfo");
+        final String weatherText = intent.getStringExtra("weatherText");
 
-        messageText.setText(msg);
+        messageText.setText(weatherInfo);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phone = phoneText.getText().toString();
-                String text = msg;
-                if(!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(text))
-                {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phone, null, text, null, null);
-                    Toast.makeText(SendMessageActivity.this, "Sent!", Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    Toast.makeText(SendMessageActivity.this, "Invalid phone number", Toast.LENGTH_SHORT).show();
+                String msg = weatherText;
+
+                try{
+                    SmsManager smgr = SmsManager.getDefault();
+                    smgr.sendTextMessage(phone,null,msg,null,null);
+                    System.out.println(weatherText);
+                    Toast.makeText(SendMessageActivity.this, "SMS Sent Successfully", Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e){
+                    Toast.makeText(SendMessageActivity.this, "SMS Failed to Send, Please try again", Toast.LENGTH_SHORT).show();
                 }
 
             }

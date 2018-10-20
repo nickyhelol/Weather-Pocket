@@ -150,4 +150,17 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("weatherText", weatherText);
         startActivity(intent);
     }
+
+    public void viewMap(View view)
+    {
+        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+        intent.putExtra("weatherCity", city);
+        intent.putExtra("weatherText", weatherText);
+
+        if (city == null || city.equalsIgnoreCase("")) {
+            Toast.makeText(getApplicationContext(), "Invalid input!", Toast.LENGTH_SHORT).show();
+        } else {
+            startActivityForResult(intent, 0);
+        }
+    }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Weather Pocket</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
